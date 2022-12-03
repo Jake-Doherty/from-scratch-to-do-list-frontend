@@ -66,3 +66,21 @@ export async function signOutUser() {
 }
 
 /* Data functions */
+export async function createTodo({ userId, detail }) {
+    const resp = await fetch(`${BASE_URL}/api/v1/todos`, {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ userId, detail }),
+        credentials: 'include',
+    });
+    const data = await resp.json();
+    if (resp.ok) {
+        return data;
+    } else {
+        // eslint-disable-next-line no-console
+        console.error(data.message);
+    }
+}
