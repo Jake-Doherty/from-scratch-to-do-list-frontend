@@ -29,7 +29,8 @@ export async function signUpUser(email, password) {
     });
     const data = await resp.json();
     if (resp.ok) {
-        location.replace('/');
+        // location.replace('/');
+        await signInUser(email, password);
     } else {
         // eslint-disable-next-line no-console
         console.error(data.message);
@@ -74,6 +75,24 @@ export async function createTodo({ userId, detail }) {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({ userId, detail }),
+        credentials: 'include',
+    });
+    const data = await resp.json();
+    if (resp.ok) {
+        return data;
+    } else {
+        // eslint-disable-next-line no-console
+        console.error(data.message);
+    }
+}
+
+export async function fetchTodos() {
+    const resp = await fetch(`${BASE_URL}/api/v1/todos`, {
+        method: 'GET',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+        },
         credentials: 'include',
     });
     const data = await resp.json();
